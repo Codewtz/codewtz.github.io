@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2018%2F05%2F01%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>%2F2018%2F05%2F01%2Fhello%2F</url>
+    <content type="text"><![CDATA[####hello world]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[My New Post]]></title>
+    <url>%2F2018%2F04%2F28%2Fone%2F</url>
+    <content type="text"><![CDATA[Android/IOS APP微信H5参考文档 开发流程（以AS为例） 1、对接流程 在商户APP发起支付请求时，商户服务器按照滴码微信H5服务器对接文档组织URL字符串，做好签名，并返回商户APP端。 商户APP通过WebView控件加载服务器返回地址。 1. 在支付页面声明webview 2. 加载支付地址 支付地址需要商户下单到商户服务器获取 webview.load(payUrl); // 配置 webview protected void setWebViewProperty() { WebSettings settings = mWebView.getSettings(); // 支持JavaScript settings.setJavaScriptEnabled(true); // 支持通过js打开新的窗⼝口 settings.setJavaScriptCanOpenWindowsAutomatically(true); settings.setDomStorageEnabled(true); } protected void setWebViewClient() { mWebView.setWebViewClient(new WebViewClient() { @Override public boolean shouldOverrideUrlLoading(WebView view, String url) { LogUtil.print(&quot;----&gt;url:&quot; + url); if (url.startsWith(&quot;weixin:&quot;) || url.startsWith(&quot;alipayqr:&quot;) || url.startsWith(&quot;alipays:&quot;)) { try { LogUtil.d(&quot;启动微信客户端&quot;, &quot;-------&quot;); startActivity(new Intent(&quot;android.intent.action.VIEW&quot;, Uri.parse(url))); } catch (ActivityNotFoundException localActivityNotFoundException) { Toast.makeText(PayInterfaceActivity.this, &quot;请检查是否安装客户端&quot;, Toast.LENGTH_SHORT).show(); finish(); } return true; } else { LogUtil.d(&quot;http&quot;, &quot;-------&quot;); return super.shouldOverrideUrlLoading(view, url); } } @Override public void onPageStarted(WebView view, String url, Bitmap favicon) { super.onPageStarted(view, url, favicon); } @Override public void onPageFinished(WebView view, String url) { super.onPageFinished(view, url); } @Override public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) { super.onReceivedError(view, errorCode, description, failingUrl); LogUtil.print(&quot;-------------errorCode1--------------&quot; + errorCode); } @TargetApi(23) @Override public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) { super.onReceivedHttpError(view, request, errorResponse); LogUtil.print(&quot;-------------errorCode2--------------&quot; + errorResponse.getStatusCode()); } }); } 查询需要商户到商户服务器去查询。 2、中间白页面遮盖处理 由于微信H5存在域名校验，因此跳转到腾讯的域名时会出现短暂的白页面，所以在商户演示Demo中的HYMaskView为中间白页面的遮盖视图。其处理逻辑为，从webView开始加载，设置添加MaskView视图遮盖，当商户APP进入前台后（当唤起微信APP时，商户APP将进入后台，当支付完成后，会返回商户APP，此时商户APP会进入前台），开始进行支付结果查询，当查到结果后，删除MaskView，并返回支付结果页。 注意：此处的中间页面一定要显示，因为在支付出错时，中间页还充当错误页面，需要展示错误内容。]]></content>
+      <categories>
+        <category>PHP</category>
+      </categories>
+      <tags>
+        <tag>demo</tag>
+      </tags>
+  </entry>
+</search>
